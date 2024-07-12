@@ -1,0 +1,9 @@
+Uptime monitoring API
+
+1. start the API server
+2. create, edit, delete user
+3. token based authentication
+4. logout mechanism
+5. set links up/down
+6. edit/delete links & rate limits
+7. check up/down time
