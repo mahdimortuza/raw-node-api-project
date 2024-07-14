@@ -1,3 +1,4 @@
+// dependencies
 const url = require('url');
 const { StringDecoder } = require('string_decoder');
 const routes = require('../routes');
@@ -29,8 +30,6 @@ handler.handleReqRes = (req, res) => {
     const decoder = new StringDecoder('utf-8');
     let realData = '';
 
-    requestProperties.body = parseJSON(realData);
-
     const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler;
 
     req.on('data', (buffer) => {
@@ -39,6 +38,8 @@ handler.handleReqRes = (req, res) => {
 
     req.on('end', () => {
         realData += decoder.end();
+
+        requestProperties.body = parseJSON(realData);
 
         chosenHandler(requestProperties, (statusCode, payload) => {
             statusCode = typeof statusCode === 'number' ? statusCode : 500;
@@ -51,8 +52,6 @@ handler.handleReqRes = (req, res) => {
             res.writeHead(statusCode);
             res.end(payloadString);
         });
-        // response handle
-        res.end('Hello world');
     });
 };
 
